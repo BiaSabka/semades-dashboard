@@ -1,0 +1,54 @@
+.economic-section {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  text-align: left;
+}
+
+.economic-section .title {
+  color: #1e56a0;
+  font-size: 1.2rem;
+  margin-bottom: 0.3rem;
+}
+
+.economic-section .periodo {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.economic-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.card-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #e8f1ff;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+}
+
+.card-item .icon {
+  font-size: 1.25rem;
+}
+
+.card-item .label {
+  font-weight: 500;
+}
+
+.card-item .value {
+  font-weight: 700;
+  color: #0044cc;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 640px) {
+  .economic-cards {
+    grid-template-columns: 1fr;
+  }
+}

@@ -7,14 +7,15 @@ body {
 
 .dashboard-container {
   text-align: center;
-  padding: 2rem;
+  padding: 2rem 1rem; /* reduz padding lateral no mobile */
+  max-width: 1300px;  /* centraliza e limita largura */
+  margin: 0 auto;
 }
 
 /* ====== CABEÇALHO ====== */
-
 .dashboard-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.2rem;
   background: none;
   box-shadow: none;
   border: none;
@@ -26,7 +27,6 @@ body {
   font-weight: 800;
   line-height: 1.2;
   margin-bottom: 0.5rem;
-
   background: linear-gradient(90deg, #0091ea 0%, #00bfa5 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -48,18 +48,18 @@ body {
 }
 
 /* ====== TAGS ====== */
-
 .legenda {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .tag {
-  padding: 0.3rem 0.8rem;
+  padding: 0.35rem 0.9rem;
   border-radius: 8px;
   font-size: 0.9rem;
-  margin: 0 0.3rem;
   color: white;
   font-weight: 500;
 }
@@ -76,22 +76,22 @@ body {
   background-color: #ff9800;
 }
 
-/* ====== GRID ====== */
-
+/* ====== GRID DE CARDS ====== */
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-  gap: 1.5rem;
+  gap: 1.8rem;
   justify-items: center;
+  margin: 0 auto;
+  max-width: 1200px;
 }
 
 /* ====== CARD BASE ====== */
-
 .card {
   position: relative;
   background-color: white;
   border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
   width: 100%;
   max-width: 360px;
@@ -100,31 +100,28 @@ body {
   border-left: 4px solid transparent;
 }
 
-/* ====== ANIMAÇÃO HOVER ====== */
-
+/* ====== HOVER ====== */
 .card:hover {
-  transform: translateY(-8px) scale(1.04);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.15);
 }
 
-/* brilho animado na borda lateral */
 .card.economia:hover {
-  border-left: 4px solid #ff9800;
-  box-shadow: 0 10px 30px rgba(255, 152, 0, 0.32);
+  border-left: 4px solid #0288d1;
+  box-shadow: 0 10px 30px rgba(2, 136, 209, 0.3);
 }
 
 .card.sustentabilidade:hover {
   border-left: 4px solid #4caf50;
-  box-shadow: 0 10px 30px rgba(76, 175, 80, 0.32);
+  box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
 }
 
 .card.inovacao:hover {
-  border-left: 4px solid #ffb300;
-  box-shadow: 0 10px 30px rgba(255, 179, 0, 0.32);
+  border-left: 4px solid #ff9800;
+  box-shadow: 0 10px 30px rgba(255, 152, 0, 0.3);
 }
 
 /* ====== CONTEÚDO ====== */
-
 .icone {
   font-size: 1.8rem;
   color: #444;
@@ -139,18 +136,6 @@ body {
   font-weight: bold;
   color: #ff9800;
   padding: 0.3rem 0.6rem;
-}
-
-.card.economia {
-  border-left: 4px solid #ff9800;
-}
-
-.card.sustentabilidade {
-  border-left: 4px solid #4caf50;
-}
-
-.card.inovacao {
-  border-left: 4px solid #ffb300;
 }
 
 .card h2 {
@@ -169,4 +154,32 @@ body {
   font-size: 0.85rem;
   color: #777;
   font-style: italic;
+}
+
+/* ====== SEÇÕES ====== */
+.economic-wrapper {
+  margin-top: 3rem;
+}
+
+.environment-wrapper {
+  margin-top: 2rem;
+}
+
+/* ====== RESPONSIVIDADE ====== */
+@media (max-width: 768px) {
+  .dashboard-header h1 {
+    font-size: 2.3rem;
+  }
+
+  .dashboard-container {
+    padding: 1rem;
+  }
+
+  .card {
+    max-width: 100%;
+  }
+
+  .economic-wrapper {
+    margin-top: 2rem;
+  }
 }

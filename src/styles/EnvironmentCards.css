@@ -1,0 +1,76 @@
+/* ...existing code... */
+.env-container {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* ...existing code... */
+
+.env-card {
+  display: flex;
+  gap: 1rem;
+  /* centraliza verticalmente todo o conteúdo (recomendado) */
+  align-items: center;
+  /* permite que o conteúdo expanda horizontalmente */
+}
+
+/* nova classe que agrupa a lista de cartões */
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  flex: 1 1 auto;
+  align-self: center;
+  /* opcional: limita largura máxima para não "empurrar" o gráfico */
+  max-width: calc(100% - 260px);
+}
+
+
+
+.card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #e8f7ed;
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  transition: 0.2s ease;
+}
+
+
+.chart-container {
+  width: 220px;
+  height: 220px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  align-self: center;
+  margin-left: 8px;
+}
+
+
+
+@media (max-width: 720px) {
+  .env-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .card-list {
+    max-width: 100%;
+    align-self: stretch;
+  }
+
+  .chart-container {
+    width: 100%;
+    height: 220px;
+  }
+}
+

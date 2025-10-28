@@ -1,5 +1,7 @@
 import React from "react";
 import "./styles/Root.css";
+import EnvironmentCards from "./components/EnvironmentCards";
+import EconomicSection from "./components/EconomicSection"; // ✅ Mantém só este import
 
 const indicadores = [
   {
@@ -73,25 +75,35 @@ export default function Root() {
         </div>
       </header>
 
-      <main className="card-grid">
-        {indicadores.map((item, index) => (
-          <a
-            key={index}
-            href={item.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ textDecoration: "none" }}
-          >
-            <div key={index} className={`card ${item.cor}`}>
-              <div className="icone">{item.icone}</div>
-              <div className="posicao">{item.posicao}</div>
-              <h2>{item.titulo}</h2>
-              <p className="fonte">{item.fonte}</p>
-              <p className="subtitulo">{item.subtitulo}</p>
-            </div>
-          </a>
-        ))}
-      </main>
+      <div className="dashboard-content">
+        <main className="card-grid">
+          {indicadores.map((item, index) => (
+            <a
+              key={index}
+              href={item.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: "none" }}
+            >
+              <div className={`card ${item.cor}`}>
+                <div className="icone">{item.icone}</div>
+                <div className="posicao">{item.posicao}</div>
+                <h2>{item.titulo}</h2>
+                <p className="fonte">{item.fonte}</p>
+                <p className="subtitulo">{item.subtitulo}</p>
+              </div>
+            </a>
+          ))}
+        </main>
+      </div>
+
+      <section className="economic-wrapper">
+        <EconomicSection />
+      </section>
+
+      <aside className="environment-wrapper">
+        <EnvironmentCards />
+      </aside>
     </div>
   );
 }
