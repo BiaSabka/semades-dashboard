@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./styles/Root.css";
 import EnvironmentCards from "./components/EnvironmentCards";
 import EconomicSection from "./components/EconomicSection";
@@ -62,9 +63,46 @@ const indicadores = [
 ];
 
 export default function Root() {
+  const navigate = useNavigate();
+
+  // Função de logout — limpa o login e volta pra tela inicial
+  const handleLogout = () => {
+    localStorage.removeItem("auth");
+    navigate("/");
+  };
+
   return (
     <div className="dashboard-container">
       <header className="dashboard-header">
+        {/* Botão de sair no topo */}
+        <button
+          onClick={handleLogout}
+          style={{
+            position: "absolute",
+            top: "20px",
+            right: "20px",
+            background: "linear-gradient(90deg, #0091ea 0%, #00bfa5 100%)",
+            border: "none",
+            color: "white",
+            padding: "8px 14px",
+            borderRadius: "8px",
+            fontWeight: "600",
+            cursor: "pointer",
+            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.2)",
+            transition: "0.3s",
+          }}
+          onMouseOver={(e) => {
+            e.target.style.transform = "scale(1.05)";
+            e.target.style.boxShadow = "0 4px 12px rgba(0,0,0,0.25)";
+          }}
+          onMouseOut={(e) => {
+            e.target.style.transform = "scale(1)";
+            e.target.style.boxShadow = "0 2px 8px rgba(0,0,0,0.2)";
+          }}
+        >
+          Sair
+        </button>
+
         <h1 className="titulo-degrade">Dashboard de Indicadores</h1>
         <p>
           Desenvolvimento Urbano e Sustentabilidade • Janeiro - Setembro 2025

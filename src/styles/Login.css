@@ -1,0 +1,376 @@
+/* ===== CONTAINER PRINCIPAL ===== */
+.login-wrapper {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  font-family: "Inter", sans-serif;
+  overflow: hidden;
+
+  /* Degradê institucional */
+  background: linear-gradient(135deg, #0091ea 0%, #00bfa5 100%);
+}
+
+/* ===== LADO ESQUERDO ===== */
+.login-left {
+  flex: 0 0 40%;
+  min-width: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+
+  /* Fundo translúcido, sem blocar o degradê */
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+}
+
+/* Card do login */
+.login-box {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ===== PAINEL DO LOGIN ===== */
+.login-box {
+  width: 100%;
+  max-width: 380px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ===== TÍTULO E TEXTO ===== */
+.login-title {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.3;
+  background: linear-gradient(90deg, #0091ea 0%, #00bfa5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.6rem;
+}
+
+.login-instructions {
+  font-size: 0.9rem;
+  color: #444;
+  margin-bottom: 1.8rem;
+}
+
+/* ===== FORM ===== */
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+input {
+  padding: 0.85rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: 0.2s;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+input:focus {
+  border-color: #00bfa5;
+  box-shadow: 0 0 6px rgba(0, 191, 165, 0.2);
+  background-color: #fff;
+}
+
+button {
+  background: linear-gradient(90deg, #0091ea 0%, #00bfa5 100%);
+  color: white;
+  border: none;
+  padding: 0.9rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  letter-spacing: 0.3px;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 191, 165, 0.25);
+}
+
+/* ===== LADO DIREITO ===== */
+
+
+.login-right {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  /* Mantém a continuidade do degradê */
+  background: transparent;
+}
+
+/* ===== CARROSSEL DE CARDS ===== */
+.carousel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  perspective: 1200px;
+}
+
+.slide {
+  position: absolute;
+  width: 65%;
+  max-width: 650px;
+  height: 70%;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: scale(0.9) translateX(40%) rotateY(30deg);
+  transition: all 1s ease;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Slide ativo (ao centro) */
+.slide.ativo {
+  opacity: 1;
+  transform: scale(1) translateX(0) rotateY(0);
+  z-index: 3;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+}
+
+/* Próximo e anterior (efeito flutuante lateral) */
+.slide:nth-child(n + 1):not(.ativo) {
+  z-index: 1;
+  opacity: 0.4;
+  transform: scale(0.8) translateX(80%) rotateY(-15deg);
+}
+
+/* Texto sobre o card */
+.slide-texto {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  color: white;
+  padding: 1rem;
+  font-size: 1rem;
+}
+
+.slide-texto h4 {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.slide-texto a {
+  color: #00e5ff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Responsivo */
+@media (max-width: 1024px) {
+  .slide {
+    width: 80%;
+    height: 60%;
+  }
+}
+
+@media (max-width: 768px) {
+  .slide {
+    width: 90%;
+    height: 55%;
+  }
+}
+
+/* Overlay de contraste */
+
+.slide-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(0, 0, 0, 0.6) 100%);
+  z-index: 0;
+}
+
+/* Texto do carrossel */
+.slide-texto {
+  position: absolute;
+  bottom: 50px;
+  left: 50px;
+  color: white;
+  max-width: 55%;
+}
+
+.slide-texto h4 {
+  font-size: 1.3rem;
+  margin-bottom: 8px;
+  line-height: 1.3;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.slide-texto a {
+  color: #00e5ff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Mensagem de carregamento */
+.carousel-loading {
+  color: #fff;
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 40%;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 1024px) {
+  .login-left {
+    flex: 0 0 45%;
+  }
+
+  .slide-texto {
+    left: 30px;
+    bottom: 30px;
+    max-width: 70%;
+  }
+
+  .slide-texto h4 {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
+
+
+  .login-wrapper {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    font-family: "Inter", sans-serif;
+    overflow: hidden;
+
+    /* Degradê contínuo azul → verde, cobrindo toda a tela */
+    background: linear-gradient(135deg, #0091ea 0%, #00bfa5 100%);
+  }
+
+  /* ===== TRANSIÇÃO SUAVE ENTRE AS COLUNAS ===== */
+ 
+  .login-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 40%;
+    width: 10%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+
+    /* gradiente translúcido branco com leve blur */
+    background: linear-gradient(to right,
+        rgba(255, 255, 255, 0.25) 0%,
+        rgba(255, 255, 255, 0.05) 50%,
+        transparent 100%);
+    backdrop-filter: blur(10px);
+
+    /* animação suave e infinita */
+    animation: fadeFlow 8s ease-in-out infinite alternate;
+    opacity: 0.9;
+  }
+
+  /* ===== Animação de névoa flutuante ===== */
+  @keyframes fadeFlow {
+    0% {
+      left: 39%;
+      width: 11%;
+      opacity: 0.8;
+      filter: blur(8px);
+    }
+
+    50% {
+      left: 41%;
+      width: 9%;
+      opacity: 0.95;
+      filter: blur(12px);
+    }
+
+    100% {
+      left: 40%;
+      width: 10%;
+      opacity: 0.9;
+      filter: blur(10px);
+    }
+  }
+
+
+  .login-left {
+    width: 100%;
+    flex: none;
+    padding: 2rem 1rem;
+  }
+
+  .login-right {
+    height: 250px;
+    flex: none;
+  }
+
+  .slide-texto {
+    left: 20px;
+    bottom: 20px;
+    max-width: 85%;
+  }
+
+  .slide-texto h4 {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-left {
+    padding: 1.5rem 1rem;
+  }
+
+  .login-left::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+
+  .login-title {
+    font-size: 1.5rem;
+  }
+
+  input,
+  button {
+    font-size: 0.9rem;
+  }
+
+  .login-right {
+    height: 200px;
+  }
+}
