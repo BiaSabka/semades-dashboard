@@ -20,7 +20,7 @@ function Login() {
     }
   };
 
-  // ======= BUSCAR NOTÍCIAS DO BACKEND LOCAL =======
+  // ======= BUSCAR NOTÍCIAS DO BACKEND LOCAL/PROD =======
   useEffect(() => {
     async function carregarNoticias() {
       try {
@@ -30,12 +30,24 @@ function Login() {
             : "https://semades-dashboard-z4ig.onrender.com/api/noticias";
 
         const resposta = await fetch(API_URL);
-
         const data = await resposta.json();
-        setNoticias(data);
+
+        const arr = Array.isArray(data)
+          ? data
+          : data.noticias || data.items || [];
+        setNoticias(
+          arr.map((n) => ({
+            titulo: n.titulo || n.title,
+            link: n.link || n.url,
+            imagem:
+              n.imagem ||
+              n.image ||
+              n.thumbnail ||
+              "https://picsum.photos/800/600?blur=2",
+          }))
+        );
       } catch (erro) {
         console.error("Erro ao carregar notícias:", erro);
-        // Fallback local (se o servidor estiver offline)
         setNoticias([
           {
             titulo: "SEMADES promove ações sustentáveis em Campo Grande",
@@ -59,21 +71,28 @@ function Login() {
     carregarNoticias();
   }, []);
 
- // Carrossel automático
-useEffect(() => {
-  if (noticias.length === 0) return;
-  const intervalo = setInterval(() => {
-    setSlideAtual((prev) => (prev + 1) % noticias.length);
-  }, 7000); // <- aqui: troca a cada 7s em vez de 5s
-  return () => clearInterval(intervalo);
-}, [noticias]);
+  // Carrossel automático
+  useEffect(() => {
+    if (noticias.length === 0) return;
+    const intervalo = setInterval(() => {
+      setSlideAtual((prev) => (prev + 1) % noticias.length);
+    }, 7000); // <- aqui: troca a cada 7s em vez de 5s
+    return () => clearInterval(intervalo);
+  }, [noticias]);
 
   return (
     <div className="login-wrapper">
       {/* ===== LADO ESQUERDO ===== */}
       <div className="login-left">
         <div className="login-box">
-          <h1 className="login-title">Seja bem-vindo ao<br />Dashboard da SEMADES</h1>
+          <div className="login-title-highlight">
+            <h1 className="login-title">
+              Seja bem-vindo ao
+              <br />
+              Dashboard da SEMADES
+            </h1>
+          </div>
+
           <p className="login-instructions">
             Acesse com seu e-mail institucional para visualizar os indicadores.
           </p>
@@ -111,7 +130,11 @@ useEffect(() => {
                 <div className="slide-overlay"></div>
                 <div className="slide-texto">
                   <h4>{noticia.titulo}</h4>
-                  <a href={noticia.link} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={noticia.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     Ler mais →
                   </a>
                 </div>

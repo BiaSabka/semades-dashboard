@@ -8,6 +8,7 @@
 
   /* Degradê institucional */
   background: linear-gradient(135deg, #0091ea 0%, #00bfa5 100%);
+  position: relative;
 }
 
 /* ===== LADO ESQUERDO ===== */
@@ -19,30 +20,20 @@
   align-items: center;
   padding: 2rem;
 
-  /* Fundo translúcido, sem blocar o degradê */
+  /* Fundo translúcido */
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(8px);
 }
 
-/* Card do login */
+/* ===== CARD DO LOGIN ===== */
 .login-box {
   background: rgba(255, 255, 255, 0.85);
   border-radius: 16px;
   padding: 2.5rem 2rem;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-/* ===== PAINEL DO LOGIN ===== */
-.login-box {
   width: 100%;
   max-width: 380px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  border-radius: 16px;
-  padding: 2.5rem 2rem;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -108,17 +99,14 @@ button:hover {
 }
 
 /* ===== LADO DIREITO ===== */
-
-
 .login-right {
   flex: 1;
   position: relative;
   overflow: hidden;
-  /* Mantém a continuidade do degradê */
   background: transparent;
 }
 
-/* ===== CARROSSEL DE CARDS ===== */
+/* ===== CARROSSEL ===== */
 .carousel-container {
   display: flex;
   justify-content: center;
@@ -148,7 +136,7 @@ button:hover {
   object-fit: cover;
 }
 
-/* Slide ativo (ao centro) */
+/* Slide ativo */
 .slide.ativo {
   opacity: 1;
   transform: scale(1) translateX(0) rotateY(0);
@@ -156,53 +144,14 @@ button:hover {
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
 }
 
-/* Próximo e anterior (efeito flutuante lateral) */
+/* Slides laterais */
 .slide:nth-child(n + 1):not(.ativo) {
   z-index: 1;
   opacity: 0.4;
   transform: scale(0.8) translateX(80%) rotateY(-15deg);
 }
 
-/* Texto sobre o card */
-.slide-texto {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
-  color: white;
-  padding: 1rem;
-  font-size: 1rem;
-}
-
-.slide-texto h4 {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.slide-texto a {
-  color: #00e5ff;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-/* Responsivo */
-@media (max-width: 1024px) {
-  .slide {
-    width: 80%;
-    height: 60%;
-  }
-}
-
-@media (max-width: 768px) {
-  .slide {
-    width: 90%;
-    height: 55%;
-  }
-}
-
-/* Overlay de contraste */
-
+/* Overlay */
 .slide-overlay::after {
   content: "";
   position: absolute;
@@ -235,7 +184,7 @@ button:hover {
   text-decoration: none;
 }
 
-/* Mensagem de carregamento */
+/* Carregando */
 .carousel-loading {
   color: #fff;
   text-align: center;
@@ -243,10 +192,60 @@ button:hover {
   margin-top: 40%;
 }
 
+/* ===== NÉVOA ANIMADA ENTRE AS COLUNAS ===== */
+.login-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 40%;
+  width: 10%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+
+  background: linear-gradient(to right,
+      rgba(255, 255, 255, 0.25) 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      transparent 100%);
+  backdrop-filter: blur(10px);
+  animation: fadeFlow 8s ease-in-out infinite alternate;
+  opacity: 0.9;
+}
+
+@keyframes fadeFlow {
+  0% {
+    left: 39%;
+    width: 11%;
+    opacity: 0.8;
+    filter: blur(8px);
+  }
+
+  50% {
+    left: 41%;
+    width: 9%;
+    opacity: 0.95;
+    filter: blur(12px);
+  }
+
+  100% {
+    left: 40%;
+    width: 10%;
+    opacity: 0.9;
+    filter: blur(10px);
+  }
+}
+
 /* ===== RESPONSIVIDADE ===== */
+
+/* Tablets e telas médias */
 @media (max-width: 1024px) {
   .login-left {
     flex: 0 0 45%;
+  }
+
+  .slide {
+    width: 80%;
+    height: 60%;
   }
 
   .slide-texto {
@@ -258,80 +257,53 @@ button:hover {
   .slide-texto h4 {
     font-size: 1.1rem;
   }
+
+  .login-wrapper::before {
+    left: 42%;
+    width: 8%;
+  }
 }
 
+/* Mobile */
 @media (max-width: 768px) {
-
-
   .login-wrapper {
-    display: flex;
-    height: 100vh;
-    width: 100%;
-    font-family: "Inter", sans-serif;
-    overflow: hidden;
-
-    /* Degradê contínuo azul → verde, cobrindo toda a tela */
-    background: linear-gradient(135deg, #0091ea 0%, #00bfa5 100%);
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(180deg, #0091ea 0%, #00bfa5 100%);
   }
-
-  /* ===== TRANSIÇÃO SUAVE ENTRE AS COLUNAS ===== */
- 
-  .login-wrapper::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 40%;
-    width: 10%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 2;
-
-    /* gradiente translúcido branco com leve blur */
-    background: linear-gradient(to right,
-        rgba(255, 255, 255, 0.25) 0%,
-        rgba(255, 255, 255, 0.05) 50%,
-        transparent 100%);
-    backdrop-filter: blur(10px);
-
-    /* animação suave e infinita */
-    animation: fadeFlow 8s ease-in-out infinite alternate;
-    opacity: 0.9;
-  }
-
-  /* ===== Animação de névoa flutuante ===== */
-  @keyframes fadeFlow {
-    0% {
-      left: 39%;
-      width: 11%;
-      opacity: 0.8;
-      filter: blur(8px);
-    }
-
-    50% {
-      left: 41%;
-      width: 9%;
-      opacity: 0.95;
-      filter: blur(12px);
-    }
-
-    100% {
-      left: 40%;
-      width: 10%;
-      opacity: 0.9;
-      filter: blur(10px);
-    }
-  }
-
 
   .login-left {
-    width: 100%;
+    width: 90%;
     flex: none;
-    padding: 2rem 1rem;
+    padding: 2rem 1.5rem;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    margin-top: 2rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .login-title {
+    font-size: 1.6rem;
+  }
+
+  .login-instructions {
+    color: #f9f9f9;
+    font-size: 0.95rem;
   }
 
   .login-right {
-    height: 250px;
+    width: 100%;
+    height: 240px;
     flex: none;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+
+  .slide {
+    width: 90%;
+    height: 55%;
   }
 
   .slide-texto {
@@ -343,26 +315,21 @@ button:hover {
   .slide-texto h4 {
     font-size: 1rem;
   }
+
+  /* remove a névoa no mobile */
+  .login-wrapper::before {
+    display: none;
+  }
 }
 
+/* Telas muito pequenas */
 @media (max-width: 480px) {
   .login-left {
     padding: 1.5rem 1rem;
   }
 
-  .login-left::after {
-    content: "";
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    width: 1px;
-    background: rgba(255, 255, 255, 0.25);
-  }
-
-
   .login-title {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 
   input,
