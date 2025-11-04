@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Parser from "rss-parser";
 import "../styles/Login.css";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [noticias, setNoticias] = useState([]);
+  const [slides, setSlides] = useState([]);
   const [slideAtual, setSlideAtual] = useState(0);
   const navigate = useNavigate();
 
@@ -20,78 +19,70 @@ function Login() {
     }
   };
 
-  // ======= BUSCAR NOTÍCIAS DO BACKEND LOCAL/PROD =======
+  // ======= SLIDES LOCAIS (imagens + frases + link) =======
   useEffect(() => {
-    async function carregarNoticias() {
-      try {
-        const API_URL =
-          window.location.hostname === "localhost"
-            ? "http://localhost:4000/api/noticias"
-            : "https://semades-dashboard-z4ig.onrender.com/api/noticias";
+    const fotos = [
+      {
+        src: "/imagens-cg/campo5.jpg",
+        titulo: "Campo Grande em crescimento",
+        descricao:
+          "A SEMADES investe em inovação urbana e sustentabilidade para o futuro da capital.",
+        link: "https://www.campogrande.ms.gov.br/semades/",
+      },
+      {
+        src: "/imagens-cg/campo2.jpg",
+        titulo: "Parques e áreas verdes",
+        descricao:
+          "Campo Grande é referência em gestão ambiental e expansão de espaços sustentáveis.",
+        link: "https://www.campogrande.ms.gov.br/semades/",
+      },
+      {
+        src: "/imagens-cg/campo3.jpg",
+        titulo: "Investimentos em energia limpa",
+        descricao:
+          "A Prefeitura aposta em soluções inteligentes para o desenvolvimento sustentável.",
+        link: "https://www.campogrande.ms.gov.br/semades/",
+      },
+      {
+        src: "/imagens-cg/campo1.jpg",
+        titulo: "Desenvolvimento urbano integrado",
+        descricao:
+          "Planejamento estratégico e inovação para melhorar a qualidade de vida dos cidadãos.",
+        link: "https://www.campogrande.ms.gov.br/semades/",
+      },
+      {
+        src: "/imagens-cg/campo4.jpg",
+        titulo: "Crescimento com responsabilidade",
+        descricao:
+          "A SEMADES promove políticas sustentáveis para uma cidade mais verde e inclusiva.",
+        link: "https://www.campogrande.ms.gov.br/semades/",
+      },
+    ];
 
-        const resposta = await fetch(API_URL);
-        const data = await resposta.json();
-
-        const arr = Array.isArray(data)
-          ? data
-          : data.noticias || data.items || [];
-        setNoticias(
-          arr.map((n) => ({
-            titulo: n.titulo || n.title,
-            link: n.link || n.url,
-            imagem:
-              n.imagem ||
-              n.image ||
-              n.thumbnail ||
-              "https://picsum.photos/800/600?blur=2",
-          }))
-        );
-      } catch (erro) {
-        console.error("Erro ao carregar notícias:", erro);
-        setNoticias([
-          {
-            titulo: "SEMADES promove ações sustentáveis em Campo Grande",
-            link: "https://www.campogrande.ms.gov.br/semades/",
-            imagem: "https://picsum.photos/800/600?random=1",
-          },
-          {
-            titulo: "Prefeitura investe em energia limpa e inovação",
-            link: "https://www.campogrande.ms.gov.br/semades/",
-            imagem: "https://picsum.photos/800/600?random=2",
-          },
-          {
-            titulo: "Desenvolvimento Urbano e Sustentabilidade",
-            link: "https://www.campogrande.ms.gov.br/semades/",
-            imagem: "https://picsum.photos/800/600?random=3",
-          },
-        ]);
-      }
-    }
-
-    carregarNoticias();
+    // embaralha para variar a ordem a cada acesso
+    const embaralhar = (array) => array.sort(() => Math.random() - 0.5);
+    setSlides(embaralhar(fotos));
   }, []);
 
-  // Carrossel automático
+  // ======= TROCA AUTOMÁTICA =======
   useEffect(() => {
-    if (noticias.length === 0) return;
+    if (slides.length === 0) return;
     const intervalo = setInterval(() => {
-      setSlideAtual((prev) => (prev + 1) % noticias.length);
-    }, 7000); // <- aqui: troca a cada 7s em vez de 5s
+      setSlideAtual((prev) => (prev + 1) % slides.length);
+    }, 6000);
     return () => clearInterval(intervalo);
-  }, [noticias]);
+  }, [slides]);
 
   return (
     <div className="login-wrapper">
       {/* ===== LADO ESQUERDO ===== */}
       <div className="login-left">
         <div className="login-box">
-          <div className="login-title-highlight">
-            <h1 className="login-title">
-              Seja bem-vindo ao
-              <br />
-              Dashboard da SEMADES
-            </h1>
-          </div>
+          <h1 className="login-title">
+            Seja bem-vindo ao
+            <br />
+            Dashboard da SEMADES
+          </h1>
 
           <p className="login-instructions">
             Acesse com seu e-mail institucional para visualizar os indicadores.
@@ -117,32 +108,30 @@ function Login() {
         </div>
       </div>
 
-      {/* ===== LADO DIREITO (CARROSSEL) ===== */}
+      {/* ===== LADO DIREITO (CARROSSEL INSTITUCIONAL) ===== */}
       <div className="login-right">
-        {noticias.length > 0 ? (
+        {slides.length > 0 ? (
           <div className="carousel-container">
-            {noticias.map((noticia, index) => (
-              <div
+            {slides.map((slide, index) => (
+              <a
                 key={index}
+                href={slide.link}
+                target="_blank"
+                rel="noopener noreferrer"
                 className={`slide ${index === slideAtual ? "ativo" : ""}`}
               >
-                <img src={noticia.imagem} alt={noticia.titulo} />
+                <img src={slide.src} alt={slide.titulo} />
                 <div className="slide-overlay"></div>
                 <div className="slide-texto">
-                  <h4>{noticia.titulo}</h4>
-                  <a
-                    href={noticia.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Ler mais →
-                  </a>
+                  <h4>{slide.titulo}</h4>
+                  <p className="slide-descricao">{slide.descricao}</p>
+                  <span className="slide-link">Visitar site →</span>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         ) : (
-          <div className="carousel-loading">Carregando notícias...</div>
+          <div className="carousel-loading">Carregando imagens...</div>
         )}
       </div>
     </div>
