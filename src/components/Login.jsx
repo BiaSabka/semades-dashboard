@@ -78,64 +78,70 @@ function Login() {
       {/* ===== LADO ESQUERDO ===== */}
       <div className="login-left">
         <div className="login-box">
-          <h1 className="login-title">
-            Seja bem-vindo ao
-            <br />
-            Dashboard da SEMADES
-          </h1>
-
-          <p className="login-instructions">
-            Acesse com seu e-mail institucional para visualizar os indicadores.
-          </p>
-
-          <form onSubmit={handleLogin}>
-            <input
-              type="email"
-              placeholder="E-mail"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
+            <img
+              src="/prefcg1.png"
+              alt="Prefeitura de Campo Grande"
+              className="logo-prefeitura"
             />
-            <input
-              type="password"
-              placeholder="Senha"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-              required
-            />
-            <button type="submit">Entrar</button>
-          </form>
+
+            <h1 className="login-title">
+              Seja bem-vindo ao
+              <br />
+              Dashboard da SEMADES
+            </h1>
+
+            <p className="login-instructions">
+              Acesse com seu e-mail institucional para visualizar os indicadores.
+            </p>
+
+            <form onSubmit={handleLogin}>
+              <input
+                type="email"
+                placeholder="E-mail"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <input
+                type="password"
+                placeholder="Senha"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+                required
+              />
+              <button type="submit">Entrar</button>
+            </form>
+          </div>
+        </div>
+
+        {/* ===== LADO DIREITO (CARROSSEL INSTITUCIONAL) ===== */}
+        <div className="login-right">
+          {slides.length > 0 ? (
+            <div className="carousel-container">
+              {slides.map((slide, index) => (
+                <a
+                  key={index}
+                  href={slide.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`slide ${index === slideAtual ? "ativo" : ""}`}
+                >
+                  <img src={slide.src} alt={slide.titulo} />
+                  <div className="slide-overlay"></div>
+                  <div className="slide-texto">
+                    <h4>{slide.titulo}</h4>
+                    <p className="slide-descricao">{slide.descricao}</p>
+                    <span className="slide-link">Visitar site →</span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          ) : (
+            <div className="carousel-loading">Carregando imagens...</div>
+          )}
         </div>
       </div>
-
-      {/* ===== LADO DIREITO (CARROSSEL INSTITUCIONAL) ===== */}
-      <div className="login-right">
-        {slides.length > 0 ? (
-          <div className="carousel-container">
-            {slides.map((slide, index) => (
-              <a
-                key={index}
-                href={slide.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`slide ${index === slideAtual ? "ativo" : ""}`}
-              >
-                <img src={slide.src} alt={slide.titulo} />
-                <div className="slide-overlay"></div>
-                <div className="slide-texto">
-                  <h4>{slide.titulo}</h4>
-                  <p className="slide-descricao">{slide.descricao}</p>
-                  <span className="slide-link">Visitar site →</span>
-                </div>
-              </a>
-            ))}
-          </div>
-        ) : (
-          <div className="carousel-loading">Carregando imagens...</div>
-        )}
-      </div>
-    </div>
-  );
+      );
 }
 
-export default Login;
+      export default Login;
