@@ -1,8 +1,12 @@
 body {
   font-family: "Inter", sans-serif;
-  background-color: #f5f9ff;
+  /* mesmo fundo do Login */
+  background: linear-gradient(135deg, #0091ea 0%, #00bfa5 100%);
   margin: 0;
   padding: 0;
+  min-height: 100vh;
+  /* fallback para navegadores antigos */
+  background-color: #0091ea;
 }
 
 .dashboard-container {
@@ -27,10 +31,12 @@ body {
   font-weight: 800;
   line-height: 1.2;
   margin-bottom: 0.5rem;
-  background: linear-gradient(90deg, #0091ea 0%, #00bfa5 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 14px rgba(0, 191, 165, 0.15);
+  /* texto em branco em vez do degradê */
+  color: #ffffff;
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+  text-shadow: none;
 }
 
 .titulo-degrade {
@@ -42,7 +48,7 @@ body {
 }
 
 .dashboard-header p {
-  color: #444;
+  color: #ffffff; /* subtítulo em branco */
   font-size: 1rem;
   margin-bottom: 1.5rem;
 }
@@ -182,4 +188,16 @@ body {
   .economic-wrapper {
     margin-top: 2rem;
   }
+}
+
+/* botão de sair — ajuste para a classe que estiver usando no seu markup */
+.button-sair,
+.btn-sair,
+.logout-button {
+  color: #ffffff;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
 }
