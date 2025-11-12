@@ -72,8 +72,9 @@ try {
   Invoke-Gcloud "gcloud config set project $EffectiveProjectId"
   Invoke-Gcloud "gcloud services enable run.googleapis.com cloudbuild.googleapis.com artifactregistry.googleapis.com --project $EffectiveProjectId"
   Invoke-Gcloud "gcloud builds submit `"$apiPath`" --tag $image --project $EffectiveProjectId"
-  $envVars = "MONGO_URI=$MongoUri,JWT_KEY=$JwtKey"
-  Invoke-Gcloud "gcloud run deploy $ServiceName --image $image --region $Region --allow-unauthenticated --set-env-vars $envVars --project $EffectiveProjectId"
+  $mongoFlag = "--set-env-vars MONGO_URI=`"$MongoUri`""
+  $jwtFlag = "--set-env-vars JWT_KEY=`"$JwtKey`""
+  Invoke-Gcloud "gcloud run deploy $ServiceName --image $image --region $Region --allow-unauthenticated $mongoFlag $jwtFlag --project $EffectiveProjectId"
   Write-Host "Deploy concluído. URL do serviço:" -ForegroundColor Green
   Invoke-Gcloud "gcloud run services describe $ServiceName --region $Region --format='value(status.url)' --project $EffectiveProjectId"
 }
