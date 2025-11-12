@@ -1,8 +1,12 @@
-const API_BASE_URL =
-  (import.meta.env.VITE_AUTH_API_URL ?? "http://localhost:3000/usuarios").replace(
-    /\/$/,
-    ""
-  );
+const HOSTNAME =
+  typeof window !== "undefined" && window.location?.hostname ? window.location.hostname : "";
+
+const defaultApiBase =
+  HOSTNAME && HOSTNAME !== "localhost" && HOSTNAME !== "127.0.0.1" && HOSTNAME !== "::1"
+    ? "https://semades-auth-api-215168468499.southamerica-east1.run.app/usuarios"
+    : "http://localhost:3000/usuarios";
+
+const API_BASE_URL = (import.meta.env.VITE_AUTH_API_URL ?? defaultApiBase).replace(/\/$/, "");
 
 const defaultHeaders = {
   "Content-Type": "application/json",
