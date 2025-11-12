@@ -100,9 +100,9 @@ function Register() {
   };
 
   return (
-    <div className="login-wrapper">
-      <div className="login-left">
-        <div className="login-box">
+    <div className="login-wrapper register-page">
+      <div className="login-left register-left">
+        <div className="login-box register-box">
           <img
             src="/logo/prefcg1.png"
             alt="Prefeitura de Campo Grande"
@@ -119,7 +119,7 @@ function Register() {
             Cadastre-se com seus dados institucionais para acessar os indicadores.
           </p>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="register-form">
             <input
               type="text"
               placeholder="Nome completo"
@@ -164,7 +164,7 @@ function Register() {
               <p className="login-error">{fieldErrors.confirmarSenha}</p>
             )}
 
-            <div className="password-rules">
+            <div className="password-rules register-password-rules">
               {senhaStatus.map((rule) => (
                 <div
                   key={rule.key}
@@ -193,7 +193,7 @@ function Register() {
         </div>
       </div>
 
-      <div className="login-right">
+      <div className="login-right register-right">
         <div className="carousel-loading">
           Complete os dados para liberar seu acesso.
         </div>
