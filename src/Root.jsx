@@ -113,7 +113,7 @@ export default function Root() {
       <nav className="navbar no-print">
         <div className="navbar-left">
           <img
-            src="/public/logo/prefcg1.png"
+            src="/logo/prefcg1.png"
             alt="Prefeitura"
             className="navbar-logo"
           />
