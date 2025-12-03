@@ -66,23 +66,37 @@ const indicadores = [
     cor: "economia",
     titulo: "PRODES",
     fonte: " ",
-    subtitulo: "Programa de incentivos para o desenvolvimento econômico e social de Campo Grande",
+    subtitulo:
+      "Programa de incentivos para o desenvolvimento econômico e social de Campo Grande",
     posicao: "7º",
     link: "https://lookerstudio.google.com/reporting/a31d117e-2e39-46dd-832d-ce27398cd59c",
   },
-  
 ];
 
 export default function Root() {
   const navigate = useNavigate();
 
-  // Função de logout — limpa o login e volta pra tela inicial
+  // logout — limpa o login e volta pra tela inicial
   const handleLogout = () => {
     localStorage.removeItem("auth");
     navigate("/");
   };
 
-  // Função para preparar e abrir a caixa de impressão com cabeçalho e rodapé
+  // abre/fecha o menu (classe no body)
+  const toggleMenu = () => {
+    document.body.classList.toggle("menu-open");
+  };
+
+  const closeMenu = () => {
+    document.body.classList.remove("menu-open");
+  };
+
+  const handleNavigate = (path) => {
+    navigate(path);
+    closeMenu();
+  };
+
+  // impressão
   const handleExport = () => {
     const header = document.getElementById("print-header");
     if (header) {
@@ -90,17 +104,74 @@ export default function Root() {
         <div class="print-center"></div>
       `;
     }
-
-    // Delay pequeno para renderizar antes de abrir a caixa de impressão
     setTimeout(() => window.print(), 180);
   };
 
   return (
     <div className="dashboard-container">
-      {/* elemento que aparece somente na impressão (preenchido por JS antes de chamar print) */}
-      <div id="print-header" className="print-header no-print" aria-hidden="true"></div>
+      {/* NAVBAR SUPERIOR */}
+      <nav className="navbar no-print">
+        <div className="navbar-left">
+          <img
+            src="/public/logo/prefcg1.png"
+            alt="Prefeitura"
+            className="navbar-logo"
+          />
+        </div>
+
+        <div className="navbar-burger" onClick={toggleMenu}>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
+
+      {/* MENU LATERAL */}
+      <div className="side-menu no-print">
+        <button onClick={() => handleNavigate("/superintendencias")}>
+          Superintendências
+        </button>
+
+        <button onClick={() => handleNavigate("/dashboard")}>
+          Indicadores Observatório
+        </button>
+
+        <button onClick={() => handleNavigate("/dados-centro")}>
+          Dados Centro
+        </button>
+
+        <button
+          onClick={() => {
+            handleExport();
+            closeMenu();
+          }}
+        >
+          Exportar
+        </button>
+
+        <button
+          onClick={() => {
+            handleLogout();
+            closeMenu();
+          }}
+          className="logout-btn"
+        >
+          Sair
+        </button>
+      </div>
+
+      {/* OVERLAY (fundo escurecido) */}
+      <div className="menu-overlay no-print" onClick={closeMenu} />
+
+      {/* usado apenas na impressão */}
+      <div
+        id="print-header"
+        className="print-header no-print"
+        aria-hidden="true"
+      ></div>
+
       <header className="dashboard-header">
-        {/* Botão de sair no topo */}
+        {/* Botão Exportar no header */}
         <button
           onClick={handleExport}
           className="no-print"
@@ -120,16 +191,17 @@ export default function Root() {
           }}
           onMouseOver={(e) => {
             e.target.style.transform = "scale(1.03)";
-            e.target.style.boxShadow = "0 4px 12px rgba(0,0,0,0.12)";
+            e.target.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.12)";
           }}
           onMouseOut={(e) => {
             e.target.style.transform = "scale(1)";
-            e.target.style.boxShadow = "0 2px 8px rgba(0,0,0,0.06)";
+            e.target.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.06)";
           }}
         >
           Exportar
         </button>
 
+        {/* Botão Sair no header */}
         <button
           onClick={handleLogout}
           className="no-print"
@@ -149,20 +221,19 @@ export default function Root() {
           }}
           onMouseOver={(e) => {
             e.target.style.transform = "scale(1.05)";
-            e.target.style.boxShadow = "0 4px 12px rgba(0,0,0,0.25)";
+            e.target.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.25)";
           }}
           onMouseOut={(e) => {
             e.target.style.transform = "scale(1)";
-            e.target.style.boxShadow = "0 2px 8px rgba(0,0,0,0.2)";
+            e.target.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.2)";
           }}
         >
           Sair
         </button>
 
         <h1 className="titulo-degrade">Dashboard de Indicadores</h1>
-        <p>
-          Desenvolvimento Urbano e Sustentabilidade • Janeiro - Setembro 2025
-        </p>
+        <p>Desenvolvimento Urbano e Sustentabilidade • Janeiro - Setembro 2025</p>
+
         <div className="legenda">
           <span className="tag economia">Economia</span>
           <span className="tag sustentabilidade">Sustentabilidade</span>

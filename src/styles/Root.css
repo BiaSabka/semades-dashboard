@@ -9,10 +9,14 @@ body {
   background-color: #0091ea;
 }
 
+
+
 .dashboard-container {
   text-align: center;
-  padding: 2rem 1rem; /* reduz padding lateral no mobile */
-  max-width: 1300px;  /* centraliza e limita largura */
+  padding: 2rem 1rem;
+  /* reduz padding lateral no mobile */
+  max-width: 1300px;
+  /* centraliza e limita largura */
   margin: 0 auto;
 }
 
@@ -39,6 +43,139 @@ body {
   text-shadow: none;
 }
 
+/* NAVBAR SUPERIOR */
+.navbar {
+  width: 100%;
+  height: 60px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+}
+
+.navbar-logo {
+  height: 60px;
+  opacity: 1.2;
+}
+
+/* Ícone hamburguer */
+.navbar-burger {
+  width: 32px;
+  height: 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.navbar-burger span {
+  width: 100%;
+  height: 4px;
+  background: #333;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+/* ANIMAÇÃO ao abrir */
+.menu-open .navbar-burger span:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.menu-open .navbar-burger span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-open .navbar-burger span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* MENU LATERAL */
+.side-menu {
+  position: fixed;
+  top: 60px;
+  /* 👈 AGORA fica abaixo da navbar */
+  right: -270px;
+  width: 250px;
+  background: white;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+  border-radius: 0 0 0 22px;
+  transition: 0.28s ease-in-out;
+  z-index: 300;
+}
+
+.menu-open .side-menu {
+  right: 0;
+}
+
+/* Botões do menu */
+.side-menu button {
+  background: linear-gradient(90deg, #0091ea, #00bfa5);
+  border: 1px solid #ddd;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.25s;
+  font-size: 15px;
+}
+
+.side-menu button:hover {
+  background: linear-gradient(90deg, #0091ea, #00bfa5);
+  transform: scale(1.03);
+}
+
+/* Botão sair */
+.side-menu .logout-btn {
+  background: linear-gradient(90deg, #0091ea, #00bfa5);
+  border: none;
+  color: white;
+  text-align: left;
+}
+
+.side-menu .logout-btn:hover {
+  filter: brightness(1.1);
+  transform: scale(1.05);
+}
+
+/* Fundo escurecido */
+.menu-overlay {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 60px);
+  background: rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.25s;
+  z-index: 150;
+}
+
+.menu-open .menu-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* empurra o conteúdo para baixo da navbar */
+.dashboard-header,
+.dashboard-content,
+.economic-wrapper,
+.environment-wrapper {
+  margin-top: 70px;
+}
+
+
 .titulo-degrade {
   background: linear-gradient(90deg, #0091ea 0%, #00bfa5 100%);
   -webkit-background-clip: text;
@@ -48,7 +185,8 @@ body {
 }
 
 .dashboard-header p {
-  color: #ffffff; /* subtítulo em branco */
+  color: #ffffff;
+  /* subtítulo em branco */
   font-size: 1rem;
   margin-bottom: 1.5rem;
 }
@@ -196,7 +334,7 @@ body {
 .logout-button {
   color: #ffffff;
   background: transparent;
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   padding: 0.5rem 0.8rem;
   border-radius: 8px;
   cursor: pointer;
