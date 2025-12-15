@@ -70,8 +70,13 @@ app.get("/api/noticias", async (req, res) => {
 });
 
 // Todas as outras rotas devem retornar o index.html (para o React Router funcionar)
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../dist/index.html"));
+// Em Express 5, use um padrão válido "(.*)" em vez de "*"
+// Middleware para servir index.html em qualquer rota não-API (SPA fallback)
+app.use((req, res, next) => {
+  if (req.method === "GET" && !req.path.startsWith("/api")) {
+    return res.sendFile(path.join(__dirname, "../dist/index.html"));
+  }
+  next();
 });
 
 const PORT = process.env.PORT || 4000;
