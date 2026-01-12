@@ -1,11 +1,13 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./styles/Root.css";
+import "./styles/DadosCentro.css";
 import "./styles/Print.css";
 import EnvironmentCards from "./components/EnvironmentCards";
 import EconomicSection from "./components/EconomicSection";
 import IndicatorEvolution from "./components/IndicatorEvolution";
 import Superintendencias from "./components/Superintendencias.jsx";
+import DadosCentro from "./components/DadosCentro.jsx";
 
 const indicadores = [
   {
@@ -76,6 +78,8 @@ const indicadores = [
 
 export default function Root() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isDadosCentro = location.pathname === "/dados-centro";
 
   // logout — limpa o login e volta pra tela inicial
   const handleLogout = () => {
@@ -232,8 +236,12 @@ export default function Root() {
           Sair
         </button>
 
-        <h1 className="titulo-degrade">Dashboard de Indicadores</h1>
-        <p>Desenvolvimento Urbano e Sustentabilidade • Janeiro - Setembro 2025</p>
+        <h1 className="titulo-degrade">{isDadosCentro ? "Dados Centro de Campo Grande - MS" : "Dashboard de Indicadores"}</h1>
+        {isDadosCentro ? (
+          <p>Visão Geral do Cadastro Imobiliário  • Fonte Municipal</p>
+        ) : (
+          <p>Desenvolvimento Urbano e Sustentabilidade • Janeiro - Setembro 2025</p>
+        )}
 
         <div className="legenda">
           <span className="tag economia">Economia</span>
@@ -242,36 +250,42 @@ export default function Root() {
         </div>
       </header>
 
-      <div className="dashboard-content">
-        <main className="card-grid">
-          {indicadores.map((item, index) => (
-            <a
-              key={index}
-              href={item.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ textDecoration: "none" }}
-            >
-              <div className={`card ${item.cor}`}>
-                <div className="icone">{item.icone}</div>
-                <div className="posicao">{item.posicao}</div>
-                <h2>{item.titulo}</h2>
-                <p className="fonte">{item.fonte}</p>
-                <p className="subtitulo">{item.subtitulo}</p>
-              </div>
-            </a>
-          ))}
-        </main>
-      </div>
+      {isDadosCentro && <DadosCentro />}
 
-      <section className="economic-wrapper">
-        <EconomicSection />
-        <EnvironmentCards />
-      </section>
+      {!isDadosCentro && (
+        <>
+          <div className="dashboard-content">
+            <main className="card-grid">
+              {indicadores.map((item, index) => (
+                <a
+                  key={index}
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: "none" }}
+                >
+                  <div className={`card ${item.cor}`}>
+                    <div className="icone">{item.icone}</div>
+                    <div className="posicao">{item.posicao}</div>
+                    <h2>{item.titulo}</h2>
+                    <p className="fonte">{item.fonte}</p>
+                    <p className="subtitulo">{item.subtitulo}</p>
+                  </div>
+                </a>
+              ))}
+            </main>
+          </div>
 
-      <aside className="environment-wrapper">
-        <IndicatorEvolution />
-      </aside>
+          <section className="economic-wrapper">
+            <EconomicSection />
+            <EnvironmentCards />
+          </section>
+
+          <aside className="environment-wrapper">
+            <IndicatorEvolution />
+          </aside>
+        </>
+      )}
     </div>
   );
 }

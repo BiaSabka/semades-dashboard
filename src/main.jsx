@@ -13,6 +13,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Router>
       <Routes>
         <Route path="/" element={<Root />} />
+        <Route path="/dados-centro" element={<Root />} />
         <Route path="/dashboard" element={<Root element={<Root />} />} />
         <Route path="/superintendencias" element={<Superintendencias />} />
         <Route path="/cadastro" element={<Register />} />

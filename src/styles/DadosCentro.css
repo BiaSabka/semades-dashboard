@@ -1,0 +1,260 @@
+/* Dados Centro — estilos específicos para organizar header/menu e título */
+
+/* NAVBAR / HEADER */
+.navbar {
+  width: 100%;
+  height: 60px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+}
+
+.navbar-logo {
+  height: 60px;
+  opacity: 1.2;
+}
+
+.navbar-burger {
+  width: 32px;
+  height: 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.navbar-burger span {
+  width: 100%;
+  height: 4px;
+  background: #333;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.menu-open .navbar-burger span:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
+.menu-open .navbar-burger span:nth-child(2) { opacity: 0; }
+.menu-open .navbar-burger span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+
+/* SIDE MENU */
+.side-menu {
+  position: fixed;
+  top: 60px;
+  right: -270px;
+  width: 250px;
+  background: white;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+  border-radius: 0 0 0 22px;
+  transition: 0.28s ease-in-out;
+  z-index: 300;
+}
+
+.menu-open .side-menu { right: 0; }
+
+.side-menu button {
+  background: linear-gradient(90deg, #0091ea, #00bfa5);
+  border: 1px solid #ddd;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.25s;
+  font-size: 15px;
+}
+
+.side-menu .logout-btn { background: linear-gradient(90deg, #0091ea, #00bfa5); border: none; color: white; text-align: left; }
+
+.menu-overlay {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 60px);
+  background: rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.25s;
+  z-index: 150;
+}
+
+.menu-open .menu-overlay { opacity: 1; pointer-events: auto; }
+
+/* DASHBOARD HEADER (título) */
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 2.2rem;
+  background: none;
+  box-shadow: none;
+  border: none;
+  padding-top: 1.5rem;
+}
+
+.dashboard-header h1 {
+  font-size: 3.2rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+  color: #ffffff;
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+  text-shadow: none;
+}
+
+.titulo-degrade {
+  background: linear-gradient(90deg, #0091ea 0%, #00bfa5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  text-shadow: 0 0 12px rgba(0, 191, 165, 0.15);
+}
+
+.dashboard-header p {
+  color: #ffffff;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Card contendo o gráfico */
+.dados-card {
+  max-width: 820px;
+  margin: 1.6rem auto 2rem auto;
+  background: #fff;
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  position: relative;
+}
+
+.chart-box {
+  flex: 0 0 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.chart-header-left {
+  position: absolute;
+  top: 12px;
+  left: 18px;
+  font-weight: 700;
+  color: #1f2933;
+  font-size: 1.05rem;
+}
+
+.chart-subtitle {
+  color: #9ca3af;
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-left: 6px;
+}
+
+.legend-box {
+  flex: 1 1 auto;
+}
+
+.legend-title {
+  font-weight: 700;
+  color: #1f2933;
+  margin-bottom: 8px;
+}
+
+.legend-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #333;
+}
+
+.legend-swatch {
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  flex: 0 0 18px;
+}
+
+.legend-label {
+  font-weight: 600;
+}
+
+.legend-value {
+  margin-left: auto;
+  color: #666;
+}
+
+@media (max-width: 860px) {
+  .dados-card { flex-direction: column; max-width: 92%; }
+  .chart-box { flex: none; }
+  .legend-box { width: 100%; }
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+  .dashboard-header h1 { font-size: 2.3rem; }
+}
+
+/* namespace helper: apenas aplica estilos quando a página for Dados Centro
+   usa o caminho /dados-centro no markup, mas queremos evitar impactos globais */
+.dados-centro-only .dashboard-header h1 {
+  /* caso queira ajustes específicos apenas para dados centro */
+}
+
+/* Paleta de 10 tons de azul — aplicada especificamente ao card de Dados Centro */
+.dados-card {
+  /* desde o azul muito escuro até o azul bem claro */
+  --blue-1: #021a3b;
+  --blue-2: #053a6b;
+  --blue-3: #0a4e8f;
+  --blue-4: #0f66b3;
+  --blue-5: #1a80d6;
+  --blue-6: #3399e6;
+  --blue-7: #66b3f0;
+  --blue-8: #9cc9f8;
+  --blue-9: #cfe9ff;
+  --blue-10: #ecf7ff;
+}
+
+/* swatch classes para serem usadas no markup (legenda) */
+.legend-swatch.swatch-1 { background: var(--blue-1); }
+.legend-swatch.swatch-2 { background: var(--blue-2); }
+.legend-swatch.swatch-3 { background: var(--blue-3); }
+.legend-swatch.swatch-4 { background: var(--blue-4); }
+.legend-swatch.swatch-5 { background: var(--blue-5); }
+.legend-swatch.swatch-6 { background: var(--blue-6); }
+.legend-swatch.swatch-7 { background: var(--blue-7); }
+.legend-swatch.swatch-8 { background: var(--blue-8); }
+.legend-swatch.swatch-9 { background: var(--blue-9); }
+.legend-swatch.swatch-10 { background: var(--blue-10); }
+
+/* ajusta contraste da amostra para bordas claras */
+.legend-swatch { box-shadow: inset 0 -1px 0 rgba(0,0,0,0.06); }
+
+/* para o SVG do donut, o preenchimento será referenciado via var(--blue-N) */
+.chart-box svg path {
+  transition: fill 0.18s ease;
+}
+
+.chart-box svg path:hover {
+  filter: brightness(0.95);
+}

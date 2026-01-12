@@ -226,22 +226,34 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
   gap: 1.8rem;
   justify-items: center;
+  align-items: stretch;
   margin: 0 auto;
   max-width: 1200px;
+}
+
+/* make the anchor fill the grid cell so the card can stretch */
+.card-grid a {
+  display: block;
+  width: 100%;
 }
 
 /* ====== CARD BASE ====== */
 .card {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-color: white;
   border-radius: 14px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
   width: 100%;
   max-width: 360px;
+  height: 200px;
   text-align: left;
   transition: all 0.35s ease;
   border-left: 4px solid transparent;
+  overflow: hidden;
 }
 
 /* ====== HOVER ====== */
@@ -321,6 +333,7 @@ body {
 
   .card {
     max-width: 100%;
+    height: auto;
   }
 
   .economic-wrapper {
