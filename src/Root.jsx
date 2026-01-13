@@ -243,11 +243,13 @@ export default function Root() {
           <p>Desenvolvimento Urbano e Sustentabilidade • Janeiro - Setembro 2025</p>
         )}
 
-        <div className="legenda">
-          <span className="tag economia">Economia</span>
-          <span className="tag sustentabilidade">Sustentabilidade</span>
-          <span className="tag inovacao">Inovação</span>
-        </div>
+        {!isDadosCentro && (
+          <div className="legenda">
+            <span className="tag economia">Economia</span>
+            <span className="tag sustentabilidade">Sustentabilidade</span>
+            <span className="tag inovacao">Inovação</span>
+          </div>
+        )}
       </header>
 
       {isDadosCentro && <DadosCentro />}

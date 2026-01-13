@@ -73,7 +73,12 @@
   font-size: 15px;
 }
 
-.side-menu .logout-btn { background: linear-gradient(90deg, #0091ea, #00bfa5); border: none; color: white; text-align: left; }
+.side-menu .logout-btn {
+  background: linear-gradient(90deg, #0091ea, #00bfa5);
+  border: none;
+  color: white;
+  text-align: left;
+}
 
 .menu-overlay {
   position: fixed;
@@ -140,6 +145,21 @@
   position: relative;
 }
 
+/* Paleta de 10 tons de azul — aplicada especificamente ao card de Dados Centro */
+.dados-card {
+  /* desde o azul muito escuro até o azul bem claro */
+  --blue-1: #021a3b;
+  --blue-2: #053a6b;
+  --blue-3: #0a4e8f;
+  --blue-4: #0f66b3;
+  --blue-5: #1a80d6;
+  --blue-6: #3399e6;
+  --blue-7: #66b3f0;
+  --blue-8: #9cc9f8;
+  --blue-9: #cfe9ff;
+  --blue-10: #ecf7ff;
+}
+
 .chart-box {
   flex: 0 0 420px;
   display: flex;
@@ -186,6 +206,7 @@
   gap: 12px;
   color: #333;
   cursor: pointer;
+  transition: opacity 0.18s ease, transform 0.12s ease, font-weight 0.12s ease;
 }
 
 .legend-swatch {
@@ -193,7 +214,20 @@
   height: 18px;
   border-radius: 6px;
   flex: 0 0 18px;
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,0.06);
 }
+
+/* swatch classes para serem usadas no markup (legenda) */
+.legend-swatch.swatch-1 { background: var(--blue-1); }
+.legend-swatch.swatch-2 { background: var(--blue-2); }
+.legend-swatch.swatch-3 { background: var(--blue-3); }
+.legend-swatch.swatch-4 { background: var(--blue-4); }
+.legend-swatch.swatch-5 { background: var(--blue-5); }
+.legend-swatch.swatch-6 { background: var(--blue-6); }
+.legend-swatch.swatch-7 { background: var(--blue-7); }
+.legend-swatch.swatch-8 { background: var(--blue-8); }
+.legend-swatch.swatch-9 { background: var(--blue-9); }
+.legend-swatch.swatch-10 { background: var(--blue-10); }
 
 .legend-label {
   font-weight: 600;
@@ -224,47 +258,23 @@
   /* caso queira ajustes específicos apenas para dados centro */
 }
 
-/* Paleta de 10 tons de azul — aplicada especificamente ao card de Dados Centro */
-.dados-card {
-  /* desde o azul muito escuro até o azul bem claro */
-  --blue-1: #021a3b;
-  --blue-2: #053a6b;
-  --blue-3: #0a4e8f;
-  --blue-4: #0f66b3;
-  --blue-5: #1a80d6;
-  --blue-6: #3399e6;
-  --blue-7: #66b3f0;
-  --blue-8: #9cc9f8;
-  --blue-9: #cfe9ff;
-  --blue-10: #ecf7ff;
-}
-
-/* swatch classes para serem usadas no markup (legenda) */
-.legend-swatch.swatch-1 { background: var(--blue-1); }
-.legend-swatch.swatch-2 { background: var(--blue-2); }
-.legend-swatch.swatch-3 { background: var(--blue-3); }
-.legend-swatch.swatch-4 { background: var(--blue-4); }
-.legend-swatch.swatch-5 { background: var(--blue-5); }
-.legend-swatch.swatch-6 { background: var(--blue-6); }
-.legend-swatch.swatch-7 { background: var(--blue-7); }
-.legend-swatch.swatch-8 { background: var(--blue-8); }
-.legend-swatch.swatch-9 { background: var(--blue-9); }
-.legend-swatch.swatch-10 { background: var(--blue-10); }
-
-/* ajusta contraste da amostra para bordas claras */
-.legend-swatch { box-shadow: inset 0 -1px 0 rgba(0,0,0,0.06); }
+/* ======== INTERAÇÃO DO DONUT (HOVER / DIM) ======== */
 
 /* para o SVG do donut, o preenchimento será referenciado via var(--blue-N) */
 .chart-box svg path {
-  transition: fill 0.18s ease, opacity 0.18s ease, transform 0.12s ease;
+  cursor: pointer;
+  transition: fill 0.18s ease, opacity 0.18s ease, transform 0.12s ease, filter 0.18s ease;
+  transform-origin: center;
 }
 
 .chart-box svg path:hover {
   filter: brightness(0.95);
 }
 
-/* hover/dim states */
+/* hover/dim states (classes aplicadas via React) */
 .chart-box svg path.dimmed { opacity: 0.18; }
 .chart-box svg path.hovered-slice { opacity: 1; transform: scale(1.01); }
+
 .legend-item.dimmed { opacity: 0.32; }
-.legend-item.hovered { opacity: 1; font-weight: 800; }
+.legend-item.hovered { opacity: 1; font-weight: 800; transform: translateX(2px); }
+
