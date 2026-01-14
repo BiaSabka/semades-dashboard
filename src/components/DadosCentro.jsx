@@ -1,8 +1,14 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 
 export default function DadosCentro() {
   const [hoverBairro, setHoverBairro] = useState(null);
   const [hoverProprietario, setHoverProprietario] = useState(null);
+
+  // Tooltips dos gráficos de barras (1 e 2)
+  const [barTip1, setBarTip1] = useState(null);
+  const [barTip2, setBarTip2] = useState(null);
+  const barAreaRef1 = useRef(null);
+  const barAreaRef2 = useRef(null);
 
   const data = [
     { label: "Afonso Pena", value: 16.3 },
@@ -28,6 +34,34 @@ export default function DadosCentro() {
     { label: "Ivan Paes Barbosa", value: 4.6 },
     { label: "Marcílio Mendonça", value: 4.4 },
     { label: "Ilson Francisco Venturin Carloto", value: 4.2 },
+  ];
+
+  // ====== NOVO GRÁFICO 1 (0 a 80) ======
+  const proprietariosImoveisQtd = [
+    { label: "Ministério do Exército", value: 76 },
+    { label: "Vista XV Empreendimentos Imobiliários LTDA", value: 70 },
+    { label: "Trier Empreendimentos Imobiliários Limitada", value: 29 },
+    { label: "Morais dos Santos Empreendimentos e Administração de Imóveis Próprios LTDA", value: 19 },
+    { label: "Jorge João Rezek", value: 19 },
+    { label: "Olga Maria Lemos Siufi", value: 19 },
+    { label: "Ivan Paes Barbosa", value: 17 },
+    { label: "Vicosa Administradora de Imóveis LTDA EPP", value: 16 },
+    { label: "Janio Cardoso Goncalves", value: 15 },
+    { label: "6F Participações e Empreendimentos LTDA", value: 15 },
+  ];
+
+  // ====== NOVO GRÁFICO 2 (0 a 1,5 bi) ======
+  const proprietariosValorAcumulado = [
+    { label: "Vista XV Empreendimentos Imobiliários LTDA", value: 1340667021.4 },
+    { label: "Ministério do Exército", value: 1082413341.56 },
+    { label: "Trier Empreendimentos Imobiliários Limitada", value: 868224650.52 },
+    { label: "Ilson Francisco Venturin Carloto", value: 361292566.45 },
+    { label: "Paula Micheli Fancelli", value: 281296195.37 },
+    { label: "Condomínio Edifício Geneve", value: 254680867.43 },
+    { label: "Neire Alves de Lima", value: 218213578.35 },
+    { label: "Jaime Khalil Jacob", value: 215669497.41 },
+    { label: "Patrice Koester dos Santos Pereira", value: 215669497.41 },
+    { label: "Aliomar Coelho Pereira", value: 196880093.88 },
   ];
 
   const radius = 140;
@@ -71,6 +105,33 @@ export default function DadosCentro() {
   }, [proprietarios]);
 
   const isDimmed = (hoverIndex, i) => hoverIndex !== null && hoverIndex !== i;
+
+  // Formatadores
+  const moneyBRL = useMemo(
+    () =>
+      new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+        maximumFractionDigits: 2,
+      }),
+    []
+  );
+
+  // Tooltip helper
+  const handleTip = (e, item, setTip, ref, valueText) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    setTip({
+      x,
+      y,
+      label: item.label,
+      valueText,
+    });
+  };
 
   return (
     <>
@@ -203,6 +264,179 @@ export default function DadosCentro() {
           </div>
         </div>
       </section>
+
+      {/* ===== 2 CARDS DE BARRAS LADO A LADO ===== */}
+      <div className="bar-cards-row">
+        {/* ===== GRÁFICO 1 ===== */}
+        <section className="dados-card bar-card">
+          <div className="chart-header-left">Proprietários por Quantidade de Imóveis</div>
+
+          <div className="bar-chart-wrap">
+            {/* PLOT */}
+            <div
+              className="bar-plot"
+              ref={barAreaRef1}
+              onMouseLeave={() => setBarTip1(null)}
+            >
+              <div className="bar-ylabels" aria-hidden="true">
+                <div>80</div>
+                <div>60</div>
+                <div>40</div>
+                <div>20</div>
+                <div>0</div>
+              </div>
+
+              <div className="bar-grid" aria-hidden="true">
+                <div className="bar-grid-line" style={{ top: "0%" }} />
+                <div className="bar-grid-line" style={{ top: "25%" }} />
+                <div className="bar-grid-line" style={{ top: "50%" }} />
+                <div className="bar-grid-line" style={{ top: "75%" }} />
+                <div className="bar-grid-line" style={{ top: "100%" }} />
+
+                {Array.from({ length: 11 }).map((_, idx) => (
+                  <div
+                    key={`v1-${idx}`}
+                    className="bar-grid-vline"
+                    style={{ left: `${(idx / 10) * 100}%` }}
+                  />
+                ))}
+              </div>
+
+              {barTip1 && (
+                <div className="bar-tooltip" style={{ left: barTip1.x, top: barTip1.y }}>
+                  <div className="bar-tooltip-title">{barTip1.label}</div>
+                  <div className="bar-tooltip-value">{barTip1.valueText}</div>
+                </div>
+              )}
+
+              <div className="bars-row">
+                {proprietariosImoveisQtd.map((item, i) => {
+                  const maxY = 80;
+                  const pct = Math.max(0, Math.min(100, (item.value / maxY) * 100));
+                  const valueText = `${item.value} imóveis`;
+
+                  return (
+                    <div className="bar-col" key={`qtd-${i}`}>
+                      <div
+                        className="bar-rect"
+                        style={{ height: `${pct}%` }}
+                        onMouseEnter={(e) => handleTip(e, item, setBarTip1, barAreaRef1, valueText)}
+                        onMouseMove={(e) => handleTip(e, item, setBarTip1, barAreaRef1, valueText)}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* labels fora do plot */}
+            <div className="bar-xlabels">
+              {proprietariosImoveisQtd.map((item, i) => {
+                const valueText = `${item.value} imóveis`;
+                return (
+                  <div
+                    key={`xl1-${i}`}
+                    className="bar-xlabel"
+                    title={item.label}
+                    onMouseEnter={(e) => handleTip(e, item, setBarTip1, barAreaRef1, valueText)}
+                    onMouseMove={(e) => handleTip(e, item, setBarTip1, barAreaRef1, valueText)}
+                  >
+                    {item.label}
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="bar-source">
+              Fonte: <b>Planurb</b> - 2025
+            </div>
+          </div>
+        </section>
+
+        {/* ===== GRÁFICO 2 ===== */}
+        <section className="dados-card bar-card">
+          <div className="chart-header-left">Proprietários por Valor Acumulado em Imóveis</div>
+
+          <div className="bar-chart-wrap">
+            {/* PLOT */}
+            <div
+              className="bar-plot"
+              ref={barAreaRef2}
+              onMouseLeave={() => setBarTip2(null)}
+            >
+              <div className="bar-ylabels" aria-hidden="true">
+                <div>1,5 bi</div>
+                <div>1,0 bi</div>
+                <div>0,5 bi</div>
+                <div>0</div>
+              </div>
+
+              <div className="bar-grid" aria-hidden="true">
+                <div className="bar-grid-line" style={{ top: "0%" }} />
+                <div className="bar-grid-line" style={{ top: "33.333%" }} />
+                <div className="bar-grid-line" style={{ top: "66.666%" }} />
+                <div className="bar-grid-line" style={{ top: "100%" }} />
+
+                {Array.from({ length: 11 }).map((_, idx) => (
+                  <div
+                    key={`v2-${idx}`}
+                    className="bar-grid-vline"
+                    style={{ left: `${(idx / 10) * 100}%` }}
+                  />
+                ))}
+              </div>
+
+              {barTip2 && (
+                <div className="bar-tooltip" style={{ left: barTip2.x, top: barTip2.y }}>
+                  <div className="bar-tooltip-title">{barTip2.label}</div>
+                  <div className="bar-tooltip-value">{barTip2.valueText}</div>
+                </div>
+              )}
+
+              <div className="bars-row">
+                {proprietariosValorAcumulado.map((item, i) => {
+                  const maxY = 1500000000;
+                  const pct = Math.max(0, Math.min(100, (item.value / maxY) * 100));
+                  const valueText = moneyBRL.format(item.value);
+
+                  return (
+                    <div className="bar-col" key={`val-${i}`}>
+                      <div
+                        className="bar-rect"
+                        style={{ height: `${pct}%` }}
+                        onMouseEnter={(e) => handleTip(e, item, setBarTip2, barAreaRef2, valueText)}
+                        onMouseMove={(e) => handleTip(e, item, setBarTip2, barAreaRef2, valueText)}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* labels fora do plot */}
+            <div className="bar-xlabels">
+              {proprietariosValorAcumulado.map((item, i) => {
+                const valueText = moneyBRL.format(item.value);
+                return (
+                  <div
+                    key={`xl2-${i}`}
+                    className="bar-xlabel"
+                    title={item.label}
+                    onMouseEnter={(e) => handleTip(e, item, setBarTip2, barAreaRef2, valueText)}
+                    onMouseMove={(e) => handleTip(e, item, setBarTip2, barAreaRef2, valueText)}
+                  >
+                    {item.label}
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="bar-source">
+              Fonte: <b>Planurb</b> - 2025
+            </div>
+          </div>
+        </section>
+      </div>
     </>
   );
 }

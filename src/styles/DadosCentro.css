@@ -147,7 +147,6 @@
 
 /* Paleta de 10 tons de azul — aplicada especificamente ao card de Dados Centro */
 .dados-card {
-  /* desde o azul muito escuro até o azul bem claro */
   --blue-1: #021a3b;
   --blue-2: #053a6b;
   --blue-3: #0a4e8f;
@@ -184,15 +183,7 @@
   margin-left: 6px;
 }
 
-.legend-box {
-  flex: 1 1 auto;
-}
-
-.legend-title {
-  font-weight: 700;
-  color: #1f2933;
-  margin-bottom: 8px;
-}
+.legend-box { flex: 1 1 auto; }
 
 .legend-list {
   display: flex;
@@ -217,7 +208,6 @@
   box-shadow: inset 0 -1px 0 rgba(0,0,0,0.06);
 }
 
-/* swatch classes para serem usadas no markup (legenda) */
 .legend-swatch.swatch-1 { background: var(--blue-1); }
 .legend-swatch.swatch-2 { background: var(--blue-2); }
 .legend-swatch.swatch-3 { background: var(--blue-3); }
@@ -252,29 +242,213 @@
   .dashboard-header h1 { font-size: 2.3rem; }
 }
 
-/* namespace helper: apenas aplica estilos quando a página for Dados Centro
-   usa o caminho /dados-centro no markup, mas queremos evitar impactos globais */
-.dados-centro-only .dashboard-header h1 {
-  /* caso queira ajustes específicos apenas para dados centro */
-}
-
 /* ======== INTERAÇÃO DO DONUT (HOVER / DIM) ======== */
-
-/* para o SVG do donut, o preenchimento será referenciado via var(--blue-N) */
 .chart-box svg path {
   cursor: pointer;
   transition: fill 0.18s ease, opacity 0.18s ease, transform 0.12s ease, filter 0.18s ease;
   transform-origin: center;
 }
 
-.chart-box svg path:hover {
-  filter: brightness(0.95);
-}
+.chart-box svg path:hover { filter: brightness(0.95); }
 
-/* hover/dim states (classes aplicadas via React) */
 .chart-box svg path.dimmed { opacity: 0.18; }
 .chart-box svg path.hovered-slice { opacity: 1; transform: scale(1.01); }
 
 .legend-item.dimmed { opacity: 0.32; }
 .legend-item.hovered { opacity: 1; font-weight: 800; transform: translateX(2px); }
 
+/* ===========================
+   2 CARDS DE BARRAS LADO A LADO
+   =========================== */
+
+.bar-cards-row {
+  max-width: 1180px;
+  margin: 1.6rem auto 2rem auto;
+  display: flex;
+  gap: 18px;
+  align-items: stretch;
+  padding: 0 8px;
+}
+
+.bar-cards-row .dados-card {
+  margin: 0;
+  max-width: none;
+  flex: 1 1 0;
+}
+
+/* Card de barras com layout vertical */
+.dados-card.bar-card {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  padding-top: 44px; /* espaço pro header absoluto */
+}
+
+/* wrap geral */
+.bar-chart-wrap {
+  width: 100%;
+  padding: 6px 6px 2px 6px;
+}
+
+/* ===== PLOT REAL (só o gráfico) ===== */
+.bar-plot {
+  position: relative;
+  height: 230px;
+  border-left: 2px solid #9ca3af;   /* eixo Y */
+  border-bottom: 2px solid #9ca3af; /* eixo X (linha do 0) */
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+}
+
+/* grid só dentro do plot */
+.bar-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bar-grid-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 1px dashed rgba(2, 26, 59, 0.16);
+}
+
+.bar-grid-vline {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  border-left: 1px dashed rgba(2, 26, 59, 0.14);
+}
+
+/* y labels fora do plot (à esquerda) */
+.bar-ylabels {
+  position: absolute;
+  left: -44px;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #9ca3af;
+  pointer-events: none;
+  text-align: right;
+  padding: 2px 0;
+}
+
+/* barras dentro do plot, base no 0 */
+.bars-row {
+  position: absolute;
+  inset: 12px 10px 10px 10px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.bar-col {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+}
+
+.bar-rect {
+  width: 100%;
+  max-width: 62px;
+  background: #053a6b; /* COR PEDIDA */
+  border-radius: 10px 10px 8px 8px;
+  box-shadow: 0 8px 16px rgba(2, 26, 59, 0.14);
+  transition: transform 0.12s ease, filter 0.18s ease;
+  cursor: pointer;
+  min-height: 2px;
+}
+
+.bar-rect:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+}
+
+/* labels do eixo X fora do plot */
+.bar-xlabels {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px 0 10px;
+}
+
+.bar-xlabel {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 92px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+/* tooltip */
+.bar-tooltip {
+  position: absolute;
+  z-index: 50;
+  min-width: 230px;
+  max-width: 340px;
+  background: #ffffff;
+  border: 1px solid rgba(2, 26, 59, 0.10);
+  border-radius: 12px;
+  padding: 10px 12px;
+  box-shadow: 0 14px 30px rgba(2, 26, 59, 0.18);
+  pointer-events: none;
+  transform: translate(-50%, -112%);
+}
+
+.bar-tooltip-title {
+  font-weight: 800;
+  color: #053a6b;
+  font-size: 13px;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.bar-tooltip-value {
+  font-size: 12px;
+  color: #475569;
+  font-weight: 700;
+}
+
+/* fonte fora do plot */
+.bar-source {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.bar-source b {
+  color: #053a6b;
+}
+
+/* responsivo: empilha os cards */
+@media (max-width: 980px) {
+  .bar-cards-row {
+    flex-direction: column;
+    max-width: 92%;
+    padding: 0;
+  }
+  .bar-cards-row .dados-card {
+    width: 100%;
+  }
+}
