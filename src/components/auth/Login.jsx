@@ -3,6 +3,13 @@ import { useNavigate } from "react-router-dom";
 import "../../styles/Login.css";
 import GoogleAuth from "./Google_auth";
 
+const LOCALHOSTS = new Set(["localhost", "127.0.0.1", "::1"]);
+const isLocalhost = () => {
+  if (typeof window === "undefined") return false;
+  const hostname = window.location?.hostname || "";
+  return LOCALHOSTS.has(hostname);
+};
+
 function Login() {
   const [erro, setErro] = useState("");
   const [slides, setSlides] = useState([]);
@@ -26,6 +33,21 @@ function Login() {
   };
 
   useEffect(() => {
+    if (isLocalhost()) {
+      localStorage.setItem("authToken", "local-admin");
+      localStorage.setItem(
+        "authUser",
+        JSON.stringify({
+          name: "admin",
+          email: "admin@localhost",
+          picture: "",
+          provider: "local",
+        })
+      );
+      navigate("/dashboard");
+      return;
+    }
+
     const user = localStorage.getItem("authUser");
     const token = localStorage.getItem("authToken");
     if (user && token) {
@@ -109,7 +131,11 @@ function Login() {
             </p>
 
             {erro && <p className="login-error">{erro}</p>}
-            <GoogleAuth onSuccess={handleGoogleLogin} onError={setErro} />
+            {isLocalhost() ? (
+              <p className="login-helper">Acesso local detectado. Entrando como admin...</p>
+            ) : (
+              <GoogleAuth onSuccess={handleGoogleLogin} onError={setErro} />
+            )}
           </div>
         </div>
 
