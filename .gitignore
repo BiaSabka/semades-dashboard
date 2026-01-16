@@ -2,3 +2,4 @@ dist/*
 /api_auth_node/node_modules/*
 node_modules/*
 semades/*
+.env
