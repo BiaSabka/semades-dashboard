@@ -1,9 +1,20 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/Superintendencias.css";
+import "../../styles/Superintendencias.css";
 
 export default function Superintendencias() {
   const navigate = useNavigate();
+  const loggedUser = (() => {
+    if (typeof window === "undefined") return "";
+    const raw = localStorage.getItem("authUser");
+    if (!raw) return "";
+    try {
+      const parsed = JSON.parse(raw);
+      return parsed?.name || parsed?.email || "";
+    } catch {
+      return "";
+    }
+  })();
 
   const toggleMenu = () => {
     document.body.classList.toggle("menu-open");
@@ -72,6 +83,9 @@ export default function Superintendencias() {
 
   return (
     <div className="dashboard-container">
+      {loggedUser ? (
+        <div className="login-status">Logado como {loggedUser}</div>
+      ) : null}
       {/* NAVBAR SUPERIOR */}
       <nav className="navbar no-print">
         <div className="navbar-left">

@@ -3,11 +3,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "./styles/Root.css";
 import "./styles/DadosCentro.css";
 import "./styles/Print.css";
-import EnvironmentCards from "./components/EnvironmentCards";
-import EconomicSection from "./components/EconomicSection";
-import IndicatorEvolution from "./components/IndicatorEvolution";
-import Superintendencias from "./components/Superintendencias.jsx";
-import DadosCentro from "./components/DadosCentro.jsx";
+import EnvironmentCards from "./components/dashboard/EnvironmentCards";
+import EconomicSection from "./components/dashboard/EconomicSection";
+import IndicatorEvolution from "./components/dashboard/IndicatorEvolution";
+import DadosCentro from "./components/dados-centro/DadosCentro";
 
 const indicadores = [
   {
@@ -80,6 +79,17 @@ export default function Root() {
   const navigate = useNavigate();
   const location = useLocation();
   const isDadosCentro = location.pathname === "/dados-centro";
+  const loggedUser = (() => {
+    if (typeof window === "undefined") return "";
+    const raw = localStorage.getItem("authUser");
+    if (!raw) return "";
+    try {
+      const parsed = JSON.parse(raw);
+      return parsed?.name || parsed?.email || "";
+    } catch {
+      return "";
+    }
+  })();
 
   // logout — limpa o login e volta pra tela inicial
   const handleLogout = () => {
@@ -114,6 +124,9 @@ export default function Root() {
 
   return (
     <div className="dashboard-container">
+      {loggedUser ? (
+        <div className="login-status">Logado como {loggedUser}</div>
+      ) : null}
       {/* NAVBAR SUPERIOR */}
       <nav className="navbar no-print">
         <div className="navbar-left">

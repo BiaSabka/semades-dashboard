@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "../styles/Login.css";
-import { login as loginRequest } from "../services/authApi";
+import "../../styles/Login.css";
+import { login as loginRequest } from "../../services/authApi";
+import GoogleAuth from "./Google_auth";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -42,6 +43,7 @@ function Login() {
     const validPayload = validateCredentials();
     if (!validPayload) return;
 
+    const trimmedEmail = validPayload.email;
     setLoading(true);
 
     try {
@@ -50,7 +52,18 @@ function Login() {
       // Persist info minima para validar sessao no client
       localStorage.setItem("auth", "true");
       if (data?.token) localStorage.setItem("authToken", data.token);
-      if (data?.user) localStorage.setItem("authUser", JSON.stringify(data.user));
+      if (data?.user) {
+        localStorage.setItem("authUser", JSON.stringify(data.user));
+      } else {
+        localStorage.setItem(
+          "authUser",
+          JSON.stringify({
+            name: trimmedEmail.split("@")[0],
+            email: trimmedEmail,
+            provider: "password",
+          })
+        );
+      }
 
       navigate("/dashboard");
     } catch (err) {
@@ -58,6 +71,23 @@ function Login() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleGoogleLogin = ({ credential, profile }) => {
+    localStorage.setItem("auth", "true");
+    if (credential) localStorage.setItem("authToken", credential);
+    if (profile) {
+      localStorage.setItem(
+        "authUser",
+        JSON.stringify({
+          name: profile.name,
+          email: profile.email,
+          picture: profile.picture,
+          provider: "google",
+        })
+      );
+    }
+    navigate("/dashboard");
   };
 
   // ======= SLIDES LOCAIS (imagens + frases + link) =======
@@ -155,6 +185,8 @@ function Login() {
                 {loading ? "Entrando..." : "Entrar"}
               </button>
             </form>
+            <div className="login-separator">Ou</div>
+            <GoogleAuth onSuccess={handleGoogleLogin} />
             <p className="login-helper">
               Ainda não tem acesso?
               <Link to="/cadastro">Criar conta</Link>

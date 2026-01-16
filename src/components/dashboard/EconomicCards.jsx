@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/EconomicCards.css";
+import "../../styles/EconomicCards.css";
 
 const economicIndicators = [
   { icon: "\u{1F3E2}", label: "Empresas Abertas", value: "4.000" },

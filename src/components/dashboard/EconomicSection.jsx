@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/EconomicSection.css";
+import "../../styles/EconomicSection.css";
 import {
   ResponsiveContainer,
   ComposedChart,

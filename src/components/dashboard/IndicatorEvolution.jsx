@@ -8,7 +8,7 @@ import {
   Tooltip,
   ResponsiveContainer
 } from 'recharts';
-import "../styles/IndicatorEvolution.css";
+import "../../styles/IndicatorEvolution.css";
 
 const data = [
   { month: 'Jan', Empresas: 500, Empregos: 700, Mudas: 2700 },
