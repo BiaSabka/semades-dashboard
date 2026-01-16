@@ -94,6 +94,8 @@ export default function Root() {
   // logout — limpa o login e volta pra tela inicial
   const handleLogout = () => {
     localStorage.removeItem("auth");
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("authUser");
     navigate("/");
   };
 

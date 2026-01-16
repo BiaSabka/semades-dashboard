@@ -1,15 +1,15 @@
 import { Navigate } from "react-router-dom";
 
 function PrivateRoute({ element }) {
-  const isAuthFlag = localStorage.getItem("auth") === "true";
   const user = localStorage.getItem("authUser");
-  const isAuth = isAuthFlag && Boolean(user);
+  const token = localStorage.getItem("authToken");
+  const isAuth = Boolean(user && token);
 
   if (!isAuth) {
-    localStorage.removeItem("auth");
     localStorage.removeItem("authToken");
     localStorage.removeItem("authUser");
   }
+
   return isAuth ? element : <Navigate to="/" replace />;
 }
 

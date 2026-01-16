@@ -1,8 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/auth/Login";
-import Register from "./components/auth/Register";
 import Root from "./Root.jsx";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import "./styles/global.css";
@@ -13,10 +12,19 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/dados-centro" element={<Root />} />
-        <Route path="/dashboard" element={<Root element={<Root />} />} />
-        <Route path="/superintendencias" element={<Superintendencias />} />
-        <Route path="/cadastro" element={<Register />} />
+        <Route path="/cadastro" element={<Navigate to="/" replace />} />
+        <Route
+          path="/dashboard"
+          element={<PrivateRoute element={<Root />} />}
+        />
+        <Route
+          path="/dados-centro"
+          element={<PrivateRoute element={<Root />} />}
+        />
+        <Route
+          path="/superintendencias"
+          element={<PrivateRoute element={<Superintendencias />} />}
+        />
       </Routes>
     </Router>
   </React.StrictMode>

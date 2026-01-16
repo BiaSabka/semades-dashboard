@@ -31,6 +31,8 @@ export default function Superintendencias() {
 
   const handleLogout = () => {
     localStorage.removeItem("auth");
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("authUser");
     navigate("/");
   };
 

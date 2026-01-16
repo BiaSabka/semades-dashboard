@@ -1,80 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../../styles/Login.css";
-import { login as loginRequest } from "../../services/authApi";
 import GoogleAuth from "./Google_auth";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState("");
   const [slides, setSlides] = useState([]);
   const [slideAtual, setSlideAtual] = useState(0);
   const navigate = useNavigate();
 
-  const validateCredentials = () => {
-    const trimmedEmail = email.trim();
-    const trimmedPassword = senha.trim();
-
-    if (!trimmedEmail || !trimmedPassword) {
-      setErro("Informe e-mail e senha.");
-      return false;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(trimmedEmail)) {
-      setErro("Digite um e-mail válido.");
-      return false;
-    }
-
-    if (trimmedPassword.length < 6) {
-      setErro("A senha precisa ter pelo menos 6 caracteres.");
-      return false;
-    }
-
-    return { email: trimmedEmail, password: trimmedPassword };
-  };
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setErro("");
-
-    const validPayload = validateCredentials();
-    if (!validPayload) return;
-
-    const trimmedEmail = validPayload.email;
-    setLoading(true);
-
-    try {
-      const data = await loginRequest(validPayload);
-
-      // Persist info minima para validar sessao no client
-      localStorage.setItem("auth", "true");
-      if (data?.token) localStorage.setItem("authToken", data.token);
-      if (data?.user) {
-        localStorage.setItem("authUser", JSON.stringify(data.user));
-      } else {
-        localStorage.setItem(
-          "authUser",
-          JSON.stringify({
-            name: trimmedEmail.split("@")[0],
-            email: trimmedEmail,
-            provider: "password",
-          })
-        );
-      }
-
-      navigate("/dashboard");
-    } catch (err) {
-      setErro(err.message ?? "Erro ao conectar com o servidor.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleGoogleLogin = ({ credential, profile }) => {
-    localStorage.setItem("auth", "true");
     if (credential) localStorage.setItem("authToken", credential);
     if (profile) {
       localStorage.setItem(
@@ -89,6 +24,14 @@ function Login() {
     }
     navigate("/dashboard");
   };
+
+  useEffect(() => {
+    const user = localStorage.getItem("authUser");
+    const token = localStorage.getItem("authToken");
+    if (user && token) {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
 
   // ======= SLIDES LOCAIS (imagens + frases + link) =======
   useEffect(() => {
@@ -162,35 +105,11 @@ function Login() {
             </h1>
 
             <p className="login-instructions">
-              Acesse com seu e-mail institucional para visualizar os indicadores.
+              Acesse com sua conta Google institucional para visualizar os indicadores.
             </p>
 
-            <form onSubmit={handleLogin}>
-              <input
-                type="email"
-                placeholder="E-mail"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <input
-                type="password"
-                placeholder="Senha"
-                value={senha}
-                onChange={(e) => setSenha(e.target.value)}
-                required
-              />
-              {erro && <p className="login-error">{erro}</p>}
-              <button type="submit" disabled={loading}>
-                {loading ? "Entrando..." : "Entrar"}
-              </button>
-            </form>
-            <div className="login-separator">Ou</div>
-            <GoogleAuth onSuccess={handleGoogleLogin} />
-            <p className="login-helper">
-              Ainda não tem acesso?
-              <Link to="/cadastro">Criar conta</Link>
-            </p>
+            {erro && <p className="login-error">{erro}</p>}
+            <GoogleAuth onSuccess={handleGoogleLogin} onError={setErro} />
           </div>
         </div>
 
