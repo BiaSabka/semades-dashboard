@@ -165,8 +165,8 @@ function Login() {
             <div className="carousel-loading">Carregando imagens...</div>
           )}
         </div>
-      </div>
-      );
+    </div>
+  );
 }
 
-      export default Login;
+export default Login;
