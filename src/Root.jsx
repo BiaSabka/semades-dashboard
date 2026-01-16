@@ -79,6 +79,17 @@ export default function Root() {
   const navigate = useNavigate();
   const location = useLocation();
   const isDadosCentro = location.pathname === "/dados-centro";
+  const loggedUser = (() => {
+    if (typeof window === "undefined") return "";
+    const raw = localStorage.getItem("authUser");
+    if (!raw) return "";
+    try {
+      const parsed = JSON.parse(raw);
+      return parsed?.name || parsed?.email || "";
+    } catch {
+      return "";
+    }
+  })();
 
   // logout — limpa o login e volta pra tela inicial
   const handleLogout = () => {
@@ -113,6 +124,9 @@ export default function Root() {
 
   return (
     <div className="dashboard-container">
+      {loggedUser ? (
+        <div className="login-status">Logado como {loggedUser}</div>
+      ) : null}
       {/* NAVBAR SUPERIOR */}
       <nav className="navbar no-print">
         <div className="navbar-left">

@@ -165,6 +165,24 @@ button:hover {
   color: #555;
 }
 
+.login-separator {
+  width: 100%;
+  margin: 1rem 0 0.75rem;
+  color: #6b7280;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.login-separator::before,
+.login-separator::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.12);
+}
+
 .login-helper a {
   margin-left: 0.35rem;
   color: #0091ea;
