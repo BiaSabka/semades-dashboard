@@ -10,7 +10,7 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
-import '../styles/EnvironmentIndicators.css';
+import "../../styles/EnvironmentIndicators.css";
 
 ChartJS.register(
   CategoryScale,

@@ -1,6 +1,6 @@
 import React from "react";
 // ...existing code...
-import "../styles/EnvironmentCards.css";
+import "../../styles/EnvironmentCards.css";
 import { Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,

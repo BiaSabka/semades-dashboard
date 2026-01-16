@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "../styles/Login.css";
+import "../../styles/Login.css";
 import { registerUser } from "../services/authApi";
 
 const emailRegex =

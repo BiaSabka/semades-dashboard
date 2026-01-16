@@ -3,11 +3,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "./styles/Root.css";
 import "./styles/DadosCentro.css";
 import "./styles/Print.css";
-import EnvironmentCards from "./components/EnvironmentCards";
-import EconomicSection from "./components/EconomicSection";
-import IndicatorEvolution from "./components/IndicatorEvolution";
-import Superintendencias from "./components/Superintendencias.jsx";
-import DadosCentro from "./components/DadosCentro.jsx";
+import EnvironmentCards from "./components/dashboard/EnvironmentCards";
+import EconomicSection from "./components/dashboard/EconomicSection";
+import IndicatorEvolution from "./components/dashboard/IndicatorEvolution";
+import DadosCentro from "./components/dados-centro/DadosCentro";
 
 const indicadores = [
   {

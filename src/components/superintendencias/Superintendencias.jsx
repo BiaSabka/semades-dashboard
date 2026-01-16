@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/Superintendencias.css";
+import "../../styles/Superintendencias.css";
 
 export default function Superintendencias() {
   const navigate = useNavigate();
