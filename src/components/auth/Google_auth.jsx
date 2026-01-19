@@ -44,6 +44,7 @@ const decodeJwt = (token) => {
 export default function GoogleAuth({ onSuccess, onError }) {
   const buttonRef = useRef(null);
   const [error, setError] = useState("");
+  // necessita ler a variavel de ambiente a partir do runtime
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
   useEffect(() => {
