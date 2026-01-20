@@ -205,7 +205,7 @@ export default function DadosCentro() {
               alt="Bandeira de Campo Grande - MS"
             />
             <div className="looker-text">
-              <div className="looker-title">Looker do Centro de Campo Grande - MS</div>
+              <div className="looker-title">Dashboard dos Indicadores do Centro de campo Grande - MS</div>
               <div className="looker-meta">PLANURB, 2025</div>
               <div className="looker-desc">Para uma observação mais detalhada</div>
             </div>

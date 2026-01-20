@@ -457,7 +457,6 @@
 
 
 
-
 /* ===========================
    CARDS RESUMO (ANTES DOS GRÁFICOS) + CARD LOOKER
    =========================== */
@@ -471,6 +470,8 @@
   align-items: stretch;
   padding: 0 16px;
   box-sizing: border-box;
+
+  justify-content: center; /* <<< GARANTE CENTRALIZAÇÃO DO CONJUNTO */
 }
 
 .resumo-cards {
@@ -479,51 +480,47 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
   min-width: 0;
+
+  justify-items: stretch;  /* <<< cards ocupam a coluna toda */
 }
 
 .resumo-card {
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 14px;
-  padding: 12px 14px;      /* ← ligeiramente menor (fininho) */
-  height: 82px;            /* ← ALTURA FIXA (igual ao Valor Total) */
-  box-sizing: border-box;  /* ← garante consistência */
+  padding: 12px 14px;
+  height: 82px;
+  box-sizing: border-box;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+
+  display: grid;
+  grid-template-columns: 86px 1fr 86px; /* <<< ícone | texto | espelho */
+  align-items: center;
+  min-width: 0;
+}
+
+
   display: flex;
   gap: 12px;
-  align-items: center;
+  align-items: center;     /* <<< centraliza na altura do card */
+  justify-content: flex-start;
   min-width: 0;
 }
 
-.resumo-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
-  background: linear-gradient(90deg, #0091ea, #00bfa5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 38px;
+.resumo-card::after {
+  content: "";
 }
 
-.resumo-icon::before {
-  content: "";
-  width: 16px;
-  height: 16px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.08);
-}
+
 
 .resumo-text {
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  min-width: 0;
-  transform: translateX(-26px);
-  flex: 1;              /* ocupa todo o espaço restante do card */
-  align-items: center;  /* centraliza título/valor */
-  text-align: center;   /* centraliza o texto */
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 4px;
 }
 
 
@@ -532,6 +529,7 @@
   color: #1f2933;
   font-size: 0.95rem;
   line-height: 1.1;
+  white-space: nowrap;     /* <<< Quantidade de Imóveis em 1 linha */
 }
 
 .resumo-value {
@@ -539,8 +537,12 @@
   font-weight: 900;
   font-size: 1.05rem;
   line-height: 1.1;
-  word-break: break-word;
+  white-space: nowrap;     /* <<< mantém "R$ 97..." na mesma linha */
 }
+
+/* ===========================
+   CARD LOOKER
+   =========================== */
 
 .looker-linkcard {
   flex: 0 0 360px;
@@ -568,68 +570,52 @@
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.14);
 }
 
-.looker-icon {
+.looker-flag {
   width: 42px;
   height: 42px;
   border-radius: 12px;
-  background: rgba(0, 145, 234, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  object-fit: cover;
   flex: 0 0 42px;
-}
-
-.looker-icon::before {
-  content: "";
-  width: 18px;
-  height: 18px;
-  border-radius: 4px;
-  background: #0091ea;
-  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.12);
-}
-
-.looker-topbadge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: rgba(255, 172, 0, 0.16);
-  color: #a35a00;
-  border: 1px solid rgba(255, 172, 0, 0.30);
-  font-weight: 900;
-  font-size: 0.85rem;
-  padding: 6px 10px;
-  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.08);
+  background: #ffffff;
 }
 
 .looker-text {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
   min-width: 0;
-  padding-right: 52px; /* espaço pro badge */
+  text-align: left;
+  padding-right: 10px;
+  margin-top: 2px;
 }
 
 .looker-title {
   font-size: 1.2rem;
   font-weight: 900;
   color: #0f172a;
-  line-height: 1.1;
+  line-height: 1.15;
+  max-width: 100%;
 }
 
 .looker-meta {
-  margin-top: 6px;   /* empurra para baixo */
   font-size: 0.92rem;
   font-weight: 700;
   color: #64748b;
-}
+  text-align: center;
 
+  margin-top: 6px;
+  margin-left: -42px;        /* centraliza pelo card */
+  width: calc(100% + 42px);
+}
 
 .looker-desc {
   position: absolute;
   left: 50%;
   bottom: 14px;
   transform: translateX(-50%);
-
   font-size: 0.78rem;
   font-weight: 600;
   color: #94a3b8;
@@ -638,13 +624,14 @@
   white-space: nowrap;
 }
 
-
+/* RESPONSIVO */
 @media (max-width: 980px) {
   .resumo-row {
     flex-direction: column;
     max-width: 92%;
     padding: 0;
   }
+
   .looker-linkcard {
     flex: none;
     width: 100%;
@@ -657,19 +644,10 @@
   }
 }
 
+/* ===========================
+   ÍCONES (IMAGENS) DOS CARDS RESUMO
+   =========================== */
 
-.looker-flag {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  object-fit: cover;
-  flex: 0 0 42px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.08);
-  background: #ffffff;
-}
-
-/* ícones em imagem nos cards resumo */
 .resumo-icon-img {
   width: 38px;
   height: 38px;
@@ -679,27 +657,23 @@
   background: #ffffff;
 }
 
-/* Aumenta ícones dos cards:
-   Área do Terreno */
-.resumo-card:nth-child(4) .resumo-icon-img {
-  width: 50px;
-  height: 50px;
-  flex: 0 0 50px;
-}
-
-/* Aumenta ícones dos cards:
-   Quantidade de Imóveis */
+/* Quantidade de Imóveis (maior) */
 .resumo-card:nth-child(1) .resumo-icon-img {
   width: 60px;
   height: 60px;
   flex: 0 0 60px;
 }
 
-
-/* Aumenta ícones dos cards:
-   Valor Venal */
-  .resumo-card:nth-child(2) .resumo-icon-img {
+/* Valor Venal (maior) */
+.resumo-card:nth-child(2) .resumo-icon-img {
   width: 68px;
   height: 68px;
   flex: 0 0 68px;
-  }
+}
+
+/* Área do Terreno (maior) */
+.resumo-card:nth-child(4) .resumo-icon-img {
+  width: 50px;
+  height: 50px;
+  flex: 0 0 50px;
+}
